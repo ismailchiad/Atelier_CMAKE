@@ -10,7 +10,11 @@ Test_Add:
         cd ${{ github.workspace }}/build
         cmake ..
         make
-        ./src/calculator add 10 5
+        result=$(./src/calculator add 10 5)
+        if [ "$result" != "15" ]; then
+          echo "Le test a échoué : Résultat attendu 15, mais obtenu $result"
+          exit 1
+        fi
 
 Test_Subtract:
   runs-on: ubuntu-latest
@@ -24,7 +28,14 @@ Test_Subtract:
         cd ${{ github.workspace }}/build
         cmake ..
         make
-        ./src/calculator sub 10 5
+        result=$(./src/calculator sub 10 5)
+        if [ "$result" != "5" ]; then
+          echo "Le test a échoué : Résultat attendu 5, mais obtenu $result"
+          exit 1
+        fi
+
+# Ajoutez des actions similaires pour les autres tests (multiply, divide, car)
+
 
 Test_Multiply:
   runs-on: ubuntu-latest
@@ -38,7 +49,11 @@ Test_Multiply:
         cd ${{ github.workspace }}/build
         cmake ..
         make
-        ./src/calculator mul 10 5
+        result=$(./src/calculator mul 10 5)
+        if [ "$result" != "5" ]; then
+          echo "Le test a échoué : Résultat attendu 5, mais obtenu $result"
+          exit 1
+        fi
 
 Test_Divide:
   runs-on: ubuntu-latest
@@ -52,7 +67,11 @@ Test_Divide:
         cd ${{ github.workspace }}/build
         cmake ..
         make
-        ./src/calculator div 10 5
+        result=$(./src/calculator div 10 5)
+        if [ "$result" != "5" ]; then
+          echo "Le test a échoué : Résultat attendu 5, mais obtenu $result"
+          exit 1
+        fi
 
 Test_Car:
   runs-on: ubuntu-latest
@@ -66,4 +85,8 @@ Test_Car:
         cd ${{ github.workspace }}/build
         cmake ..
         make
-        ./src/calculator car 5
+        result=$(./src/calculator car 5)
+        if [ "$result" != "5" ]; then
+          echo "Le test a échoué : Résultat attendu 5, mais obtenu $result"
+          exit 1
+        fi
