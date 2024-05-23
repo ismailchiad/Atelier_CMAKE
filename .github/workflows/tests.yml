@@ -1,94 +1,30 @@
-
 name: Automatisation des tests
-on: pushTest_Add:
-  runs-on: ubuntu-latest
-  needs: Compilation
-  steps:
-    - name: Checkout du code
-      uses: actions/checkout@v2
-
-    - name: Test fonction add
-      run: |
-        cd ${{ github.workspace }}/build
-        cmake ..
-        make
-        result=$(./src/calculator add 10 5)
-        if [ "$result" != "15" ]; then
-          echo "Le test a échoué : Résultat attendu 15, mais obtenu $result"
-          exit 1
-        fi
-
-Test_Subtract:
-  runs-on: ubuntu-latest
-  needs: Compilation
-  steps:
-    - name: Checkout du code
-      uses: actions/checkout@v2
-
-    - name: Test fonction sub
-      run: |
-        cd ${{ github.workspace }}/build
-        cmake ..
-        make
-        result=$(./src/calculator sub 10 5)
-        if [ "$result" != "5" ]; then
-          echo "Le test a échoué : Résultat attendu 5, mais obtenu $result"
-          exit 1
-        fi
-
-# Ajoutez des actions similaires pour les autres tests (multiply, divide, car)
-
-
-Test_Multiply:
-  runs-on: ubuntu-latest
-  needs: Compilation
-  steps:
-    - name: Checkout du code
-      uses: actions/checkout@v2
-
-    - name: Test fonction mul
-      run: |
-        cd ${{ github.workspace }}/build
-        cmake ..
-        make
-        result=$(./src/calculator mul 10 5)
-        if [ "$result" != "5" ]; then
-          echo "Le test a échoué : Résultat attendu 5, mais obtenu $result"
-          exit 1
-        fi
-
-Test_Divide:
-  runs-on: ubuntu-latest
-  needs: Compilation
-  steps:
-    - name: Checkout du code
-      uses: actions/checkout@v2
-
-    - name: Test fonction div
-      run: |
-        cd ${{ github.workspace }}/build
-        cmake ..
-        make
-        result=$(./src/calculator div 10 5)
-        if [ "$result" != "5" ]; then
-          echo "Le test a échoué : Résultat attendu 5, mais obtenu $result"
-          exit 1
-        fi
-
-Test_Car:
-  runs-on: ubuntu-latest
-  needs: Compilation
-  steps:
-    - name: Checkout du code
-      uses: actions/checkout@v2
-
-    - name: Test fonction car
-      run: |
-        cd ${{ github.workspace }}/build
-        cmake ..
-        make
-        result=$(./src/calculator car 5)
-        if [ "$result" != "5" ]; then
-          echo "Le test a échoué : Résultat attendu 5, mais obtenu $result"
-          exit 1
-        fi
+on: push
+jobs:
+  Compilation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compilation
+        run: |
+          last_directory=$(basename ${{ runner.workspace }})
+          git clone https://github.com/${{ github.repository }}.git
+          cd ./$last_directory
+          mkdir build
+          cd build
+          cmake ..
+          make
+          make test
+  Test_Add:
+    runs-on: ubuntu-latest
+    needs: Compilation
+    steps:
+      - name: Test fonction add
+        run: |
+          last_directory=$(basename ${{ runner.workspace }})
+          git clone https://github.com/${{ github.repository }}.git
+          cd ./$last_directory
+          mkdir build
+          cd build
+          cmake ..
+          make
+          ./src/calculator add 10 5
