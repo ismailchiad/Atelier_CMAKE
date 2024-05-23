@@ -15,4 +15,8 @@ double _mul(double a, double b) {
 double _div(double a, double b) {
 	return a/b;
 }
-	
+
+// Implémentation de la nouvelle fonction pour calculer le carré
+int car(int n) {
+    return n * n;
+}
