@@ -17,6 +17,6 @@ double _div(double a, double b) {
 }
 
 // Implémentation de la nouvelle fonction pour calculer le carré
-int car(int n) {
+double _car(double n) {
     return n * n;
 }
